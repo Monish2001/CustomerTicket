@@ -1,11 +1,13 @@
 package classes;
 
+import java.util.Map;
+
 public class Customer {
     private Integer id;
     private String name;
     private String email;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -28,4 +30,5 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

@@ -1,15 +1,24 @@
 package classes;
 
 import java.util.List;
+import java.util.Map;
 
 public class Ticket {
+
+    public enum TicketStatus {
+        ACTIVE,
+        INITIATED,
+        INACTIVE,
+        WRITTENOFF;
+    }
+
     private Integer id;
     private String title;
     private String description;
-    private String status;
-    private Customer customer;
 
-    public int getId() {
+    private Enum status;
+    private Customer customer;
+    public Integer getId() {
         return id;
     }
 
@@ -33,11 +42,11 @@ public class Ticket {
         this.description = description;
     }
 
-    public String getStatus() {
+    public Enum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Enum status) {
         this.status = status;
     }
 
@@ -48,5 +57,6 @@ public class Ticket {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
 
 }
