@@ -1,15 +1,14 @@
 import classes.Customer;
+import classes.Singleton;
 import classes.Ticket;
 import controller.TicketController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        List<Ticket> ticketList = new ArrayList<Ticket>();
-        List<Customer> customerList = new ArrayList<Customer>();
+        Map<Integer,Ticket> EmptyMap = Collections.emptyMap();
+        Singleton singletonObj = Singleton.getInstance();
         boolean input = true;
         Scanner sc = new Scanner(System.in);
         do {
@@ -23,21 +22,25 @@ public class Main {
                     /* Get a particular ticket */
                     System.out.println("Enter ticket id");
                     Integer inputTicketId = Integer.parseInt(sc.nextLine());
-                    List<Ticket> resultList = ticketControllerObj.getTickets(null,null,inputTicketId,ticketList);
-                    ticketControllerObj.printTicket(resultList);
+                    Ticket resultTicket = ticketControllerObj.getTicketWithId(inputTicketId);
+                    System.out.println(resultTicket.getId());
+                    System.out.println(resultTicket.getTitle());
+                    System.out.println(resultTicket.getDescription());
                     break;
                 }
                 case 2: {
                     /* List all tickets */
+
                     System.out.println("Tickets");
-                    ticketControllerObj.printTicket(ticketList);
+                    ticketControllerObj.printTicket(EmptyMap);
                     break;
                 }
                 case 3: {
                     /* List all the tickets with status filter */
+
                     System.out.println("Enter status");
                     String status = sc.nextLine();
-                    List<Ticket> resultList = ticketControllerObj.getTickets(null,status,null,ticketList);
+                    Map<Integer,Ticket> resultList = ticketControllerObj.getTickets(null,status,null);
                     ticketControllerObj.printTicket(resultList);
                     break;
                 }
@@ -46,7 +49,7 @@ public class Main {
                     /* List all the tickets with customer name filter */
                     System.out.println("Enter customer name");
                     String customerName = sc.nextLine();
-                    List<Ticket> resultList = ticketControllerObj.getTickets(customerName,null,null,ticketList);
+                    Map<Integer,Ticket> resultList = ticketControllerObj.getTickets(customerName,null,null);
                     ticketControllerObj.printTicket(resultList);
                     break;
                 }
@@ -55,19 +58,23 @@ public class Main {
                     System.out.println("Please enter your customer id");
                     int inputCustomerId = Integer.parseInt(sc.nextLine());
                     boolean isCustomerExist = false;
-                    for (Customer customer: customerList) {
-                        if (customer.getId() == inputCustomerId) {
+                    Map<Integer, Customer> customerList = singletonObj.customerList;
+                    for (Map.Entry<Integer,Customer> customer : customerList.entrySet()) {
+                        if (customer.getValue().getId().equals(inputCustomerId)) {
                             isCustomerExist = true;
                             Ticket ticket = new Ticket();
-                            ticket.setCustomer(customer);
                             System.out.println("Enter the ticket id:");
-                            ticket.setId(Integer.parseInt(sc.nextLine()));
+                            Integer id = Integer.parseInt(sc.nextLine());
+                            ticket.setId(id);
                             System.out.println("Enter the ticket title:");
-                            ticket.setTitle(sc.nextLine());
+                            String title = sc.nextLine();
+                            ticket.setTitle(title);
                             System.out.println("Enter the ticket description:");
-                            ticket.setDescription(sc.nextLine());
-                            ticket.setStatus("Initiated");
-                            ticketList.add(ticket);
+                            String description = sc.nextLine();
+                            ticket.setDescription(description);
+                            ticket.setStatus("initiated");
+                            ticket.setCustomer(customer.getValue());
+                            singletonObj.ticketList.put(id,ticket);
                         }
                     }
                     if(isCustomerExist==false)
@@ -79,17 +86,23 @@ public class Main {
 
                 case 6: {
                     /* Update a ticket */
-                    ticketControllerObj.updateTicket(ticketList);
+                    System.out.println("Enter the ticket id to update");
+                    Integer ticketId = Integer.parseInt(sc.nextLine());
+                    System.out.println("Enter the ticket title to update");
+                    String updatedTitle = sc.nextLine();
+                    ticketControllerObj.updateTicket(ticketId, updatedTitle);
                     System.out.println("After updating");
-                    ticketControllerObj.printTicket(ticketList);
+                    ticketControllerObj.printTicket(EmptyMap);
                     break;
                 }
 
                 case 7: {
                     /* Delete a ticket */
-                    ticketControllerObj.deleteTicket(ticketList);
+                    System.out.println("Enter the ticket id to delete!!");
+                    Integer ticketId = Integer.parseInt(sc.nextLine());
+                    ticketControllerObj.deleteTicket(ticketId);
                     System.out.println("After deleting");
-                    ticketControllerObj.printTicket(ticketList);
+                    ticketControllerObj.printTicket(EmptyMap);
                     break;
                 }
 
@@ -97,12 +110,15 @@ public class Main {
                     /* Create customer */
                     Customer customer = new Customer();
                     System.out.println("Enter id");
-                    customer.setId(Integer.parseInt(sc.nextLine()));
+                    Integer id = Integer.parseInt(sc.nextLine());
+                    customer.setId(id);
                     System.out.println("Enter your name");
-                    customer.setName(sc.nextLine());
+                    String name = sc.nextLine();
+                    customer.setName(name);
                     System.out.println("Enter your email");
-                    customer.setEmail(sc.nextLine());
-                    customerList.add(customer);
+                    String email = sc.nextLine();
+                    customer.setEmail(email);
+                    singletonObj.customerList.put(id,customer);
                     break;
                 }
 

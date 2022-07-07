@@ -1,23 +1,32 @@
 package controller;
 
+import classes.Singleton;
 import classes.Ticket;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class TicketController {
     Scanner sc = new Scanner(System.in);
-    public List<Ticket> getTickets(String customerName, String status, Integer id, List<Ticket> ticketList)
+    Singleton singletonObj = Singleton.getInstance();
+
+    public Ticket getTicketWithId(Integer id)
     {
-        List<Ticket> returnTicketList = new ArrayList<Ticket>();
+        Map<Integer,Ticket> ticketList = singletonObj.ticketList;
+
+        Ticket ticket = ticketList.get(id);
+        return ticket;
+    }
+    public Map<Integer, Ticket> getTickets(String customerName, String status, Integer id)
+    {
+        Map<Integer,Ticket> ticketList= singletonObj.ticketList;
+
+        Map<Integer, Ticket> returnTicketList = new HashMap<Integer,Ticket>();
         if(customerName!=null || status!=null || id!=null)
         {
-            for (Ticket ticket:
-                 ticketList) {
-                if(ticket.getCustomer().getName().equals(customerName) || ticket.getStatus().equals(status) || ticket.getId() == id)
+            for (Map.Entry<Integer, Ticket> ticket : ticketList.entrySet()) {
+                if(ticket.getValue().getCustomer().getName().equals(customerName) || ticket.getValue().getStatus().equals(status) || ticket.getValue().getId().equals(id))
                 {
-                    returnTicketList.add(ticket);
+                    returnTicketList.put(ticket.getKey(),ticket.getValue());
                 }
             }
             return returnTicketList;
@@ -27,49 +36,38 @@ public class TicketController {
         }
     }
 
-    public void printTicket(List<Ticket> ticketList)
+    public void printTicket(Map<Integer,Ticket> ticketList)
     {
-        if(ticketList.size()!=0)
+        if(ticketList.isEmpty())
         {
-            for (Ticket ticket:
-                    ticketList) {
-                System.out.println(ticket.getTitle());
-                System.out.println(ticket.getDescription());
-                System.out.println(ticket.getStatus());
-                System.out.println(ticket.getCustomer().getName());
-                System.out.println(ticket.getCustomer().getEmail());
-            }
+            ticketList= singletonObj.ticketList;
         }
-
-    }
-
-    public void updateTicket(List<Ticket> ticketList)
-    {
-
-        System.out.println("Enter the ticket id to update");
-        Integer ticketId = Integer.parseInt(sc.nextLine());
-        System.out.println("Enter the ticket title to update");
-        String updatedTitle = sc.nextLine();
-        for (Ticket ticket:ticketList
-        ) {
-            if(ticket.getId()==ticketId)
+        if(ticketList.size()!=0) {
+            for (Map.Entry<Integer, Ticket> ticket : ticketList.entrySet())
             {
-                ticket.setTitle(updatedTitle);
+                System.out.println("Key = " + ticket.getKey() +
+                        ", Value = " + ticket.getValue());
+                System.out.println(ticket.getValue().getId());
+                System.out.println(ticket.getValue().getTitle());
+                System.out.println(ticket.getValue().getDescription());
+                System.out.println(ticket.getValue().getStatus());
+                System.out.println(ticket.getValue().getCustomer().getName());
+                System.out.println(ticket.getValue().getCustomer().getEmail());
             }
         }
     }
 
-    public void deleteTicket(List<Ticket> ticketList)
+    public void updateTicket(Integer ticketId, String updatedTitle)
     {
-        System.out.println("Enter the ticket id to delete!!");
-        Integer ticketId = Integer.parseInt(sc.nextLine());
-        for (Ticket ticket:ticketList
-        ) {
-            if(ticket.getId()==ticketId)
-            {
-                ticketList.remove(ticket);
-                return;
-            }
-        }
+        Map<Integer,Ticket> ticketList= singletonObj.ticketList;
+        Ticket ticket = ticketList.get(ticketId);
+        ticket.setTitle(updatedTitle);
+    }
+
+    public void deleteTicket(Integer ticketId)
+    {
+        Map<Integer,Ticket> ticketList= singletonObj.ticketList;
+
+        ticketList.remove(ticketId);
     }
 }
