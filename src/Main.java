@@ -32,7 +32,7 @@ public class Main {
                     /* List all tickets */
 
                     System.out.println("Tickets");
-                    ticketControllerObj.printTicket(EmptyMap);
+                    ticketControllerObj.printAllTicket();
                     break;
                 }
                 case 3: {
