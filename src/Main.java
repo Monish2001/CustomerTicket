@@ -58,7 +58,7 @@ public class Main {
                     System.out.println("Please enter your customer id");
                     int inputCustomerId = Integer.parseInt(sc.nextLine());
                     boolean isCustomerExist = false;
-                    Map<Integer, Customer> customerList = singletonObj.customerList;
+                    Map<Integer, Customer> customerList = singletonObj.getCustomerList();
                     for (Map.Entry<Integer,Customer> customer : customerList.entrySet()) {
                         if (customer.getValue().getId().equals(inputCustomerId)) {
                             isCustomerExist = true;
@@ -72,9 +72,10 @@ public class Main {
                             System.out.println("Enter the ticket description:");
                             String description = sc.nextLine();
                             ticket.setDescription(description);
-                            ticket.setStatus(String.valueOf(Ticket.TicketStatus.INITIATED));
+                            ticket.setStatus(Ticket.TicketStatus.INITIATED);
                             ticket.setCustomer(customer.getValue());
-                            singletonObj.ticketList.put(id,ticket);
+                            Map<Integer, Ticket> ticketList = singletonObj.getTicketList();
+                            ticketList.put(id,ticket);
                         }
                     }
                     if(isCustomerExist==false)
@@ -118,7 +119,8 @@ public class Main {
                     System.out.println("Enter your email");
                     String email = sc.nextLine();
                     customer.setEmail(email);
-                    singletonObj.customerList.put(id,customer);
+                    Map<Integer, Customer> customerList = singletonObj.getCustomerList();
+                    customerList.put(id,customer);
                     break;
                 }
 

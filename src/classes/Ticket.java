@@ -15,7 +15,8 @@ public class Ticket {
     private Integer id;
     private String title;
     private String description;
-    private String status;
+
+    private Enum status;
     private Customer customer;
     public Integer getId() {
         return id;
@@ -41,11 +42,11 @@ public class Ticket {
         this.description = description;
     }
 
-    public String getStatus() {
+    public Enum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Enum status) {
         this.status = status;
     }
 
