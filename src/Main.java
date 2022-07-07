@@ -40,16 +40,16 @@ public class Main {
 
                     System.out.println("Enter status");
                     String status = sc.nextLine();
-                    Map<Integer,Ticket> resultList = ticketControllerObj.getTickets(null,status,null);
+                    Map<Integer,Ticket> resultList = ticketControllerObj.getTickets(null,status);
                     ticketControllerObj.printTicket(resultList);
                     break;
                 }
 
                 case 4:{
                     /* List all the tickets with customer name filter */
-                    System.out.println("Enter customer name");
-                    String customerName = sc.nextLine();
-                    Map<Integer,Ticket> resultList = ticketControllerObj.getTickets(customerName,null,null);
+                    System.out.println("Enter customer id");
+                    Integer customerId = Integer.parseInt(sc.nextLine());
+                    Map<Integer,Ticket> resultList = ticketControllerObj.getTickets(customerId,null);
                     ticketControllerObj.printTicket(resultList);
                     break;
                 }
@@ -72,7 +72,7 @@ public class Main {
                             System.out.println("Enter the ticket description:");
                             String description = sc.nextLine();
                             ticket.setDescription(description);
-                            ticket.setStatus("initiated");
+                            ticket.setStatus(String.valueOf(Ticket.TicketStatus.INITIATED));
                             ticket.setCustomer(customer.getValue());
                             singletonObj.ticketList.put(id,ticket);
                         }

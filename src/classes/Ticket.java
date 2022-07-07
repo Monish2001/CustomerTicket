@@ -4,20 +4,19 @@ import java.util.List;
 import java.util.Map;
 
 public class Ticket {
+
+    public enum TicketStatus {
+        ACTIVE,
+        INITIATED,
+        INACTIVE,
+        WRITTENOFF;
+    }
+
     private Integer id;
     private String title;
     private String description;
     private String status;
     private Customer customer;
-//    private Map<Integer, Ticket> ticketList;
-//    public Map<Integer, Ticket> getTicketList() {
-//        return ticketList;
-//    }
-//
-//    public void setTicketList(Map<Integer, Ticket> ticketList) {
-//        this.ticketList = ticketList;
-//    }
-
     public Integer getId() {
         return id;
     }
@@ -57,25 +56,6 @@ public class Ticket {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
-//    static Ticket ticketObj = new Ticket();
-//    private Ticket()
-//    {
-//
-//    }
-//    public static Ticket getInstance(){
-//        return ticketObj;
-//    }
-
-//    public void createTicket(Integer id, String title, String description, String status, Customer customer)
-//    {
-//        ticketObj.setId(id);
-//        ticketObj.setTitle(title);
-//        ticketObj.setDescription(description);
-//        ticketObj.setStatus(status);
-//        ticketObj.setCustomer(customer);
-//        ticketList.put(id,ticketObj);
-//    }
 
 
 }

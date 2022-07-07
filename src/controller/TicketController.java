@@ -16,15 +16,15 @@ public class TicketController {
         Ticket ticket = ticketList.get(id);
         return ticket;
     }
-    public Map<Integer, Ticket> getTickets(String customerName, String status, Integer id)
+    public Map<Integer, Ticket> getTickets(Integer customerId, String status)
     {
         Map<Integer,Ticket> ticketList= singletonObj.ticketList;
 
         Map<Integer, Ticket> returnTicketList = new HashMap<Integer,Ticket>();
-        if(customerName!=null || status!=null || id!=null)
+        if(customerId!=null || status!=null)
         {
             for (Map.Entry<Integer, Ticket> ticket : ticketList.entrySet()) {
-                if(ticket.getValue().getCustomer().getName().equals(customerName) || ticket.getValue().getStatus().equals(status) || ticket.getValue().getId().equals(id))
+                if(ticket.getValue().getCustomer().getId().equals(customerId) || ticket.getValue().getStatus().equals(status))
                 {
                     returnTicketList.put(ticket.getKey(),ticket.getValue());
                 }
